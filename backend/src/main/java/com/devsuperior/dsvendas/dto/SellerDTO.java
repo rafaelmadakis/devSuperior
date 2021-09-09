@@ -1,31 +1,34 @@
-package com.devsuperior.dsvendas.entities;
+package com.devsuperior.dsvendas.dto;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.devsuperior.dsvendas.entities.Seller;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_sellers")
-public class Seller {
+public class SellerDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String name;
 
-    //Seller tem uma lista de sale
-    @OneToMany(mappedBy = "seller")
-    private List<Sale> sales = new ArrayList<>();
-
-    public Seller(){
+    public SellerDTO(){
 
     }
 
-    public Seller(Long id, String name) {
+    public SellerDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }
+
+    /**
+     * Copiar dados de um entidade para um DTO
+     * @param entity
+     */
+    public SellerDTO(Seller entity) {
+        id = entity.getId();
+        name = entity.getName();
+    }
+
 
     public Long getId() {
         return id;
@@ -43,17 +46,12 @@ public class Seller {
         this.name = name;
     }
 
-    public List<Sale> getSales() {
-        return sales;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Seller seller = (Seller) o;
-        return Objects.equals(id, seller.id);
+        SellerDTO sellerDTO = (SellerDTO) o;
+        return Objects.equals(id, sellerDTO.id);
     }
 
     @Override
